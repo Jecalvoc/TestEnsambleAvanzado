@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Simulador Multi-lenguaje con Misiones</title>
+<title>Simulador Multi-lenguaje con Misiones - Corregido</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -16,7 +16,6 @@
   h1 { text-align: center; color: #89b4fa; margin-bottom: 10px; }
   .subtitle { text-align: center; color: #a6adc8; margin-bottom: 20px; }
   
-  /* Tabs */
   .tabs {
     display: flex;
     gap: 5px;
@@ -45,7 +44,6 @@
   }
   .tab-content.active { display: block; }
   
-  /* Tutorial */
   .tutorial-container {
     background: #313244;
     border-radius: 10px;
@@ -98,7 +96,6 @@
     color: #f5e0dc;
   }
   
-  /* Misiones */
   .missions-container {
     background: #313244;
     border-radius: 10px;
@@ -153,7 +150,6 @@
   .star { opacity: 0.3; }
   .star.earned { opacity: 1; }
   
-  /* Modal de misión */
   .modal {
     display: none;
     position: fixed;
@@ -205,7 +201,6 @@
   .btn-close { background: #f38ba8; color: #1e1e2e; }
   .btn-hint { background: #f9e2af; color: #1e1e2e; }
   
-  /* Simulador */
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -265,7 +260,6 @@
   .console .success { color: #a6e3a1; font-weight: bold; }
   label { color: #a6adc8; font-size: 14px; }
   
-  /* Progreso */
   .progress-bar {
     background: #45475a;
     height: 30px;
@@ -291,14 +285,12 @@
 <h1>🧪 Simulador de Programación con Misiones</h1>
 <p class="subtitle">Aprende Java • C++ • Python paso a paso</p>
 
-<!-- Tabs -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('tutorial')">📖 Tutorial</button>
   <button class="tab" onclick="switchTab('missions')">🎯 Misiones</button>
   <button class="tab" onclick="switchTab('simulator')">💻 Simulador</button>
 </div>
 
-<!-- Tutorial -->
 <div class="tab-content active" id="tutorial-tab">
   <div class="tutorial-container">
     <h2 style="color:#89b4fa;">📖 Tutorial Básico: Suma y Resta</h2>
@@ -310,7 +302,6 @@
   </div>
 </div>
 
-<!-- Misiones -->
 <div class="tab-content" id="missions-tab">
   <div class="missions-container">
     <h2 style="color:#89b4fa;">🎯 Misiones de Programación</h2>
@@ -321,13 +312,12 @@
   </div>
 </div>
 
-<!-- Simulador -->
 <div class="tab-content" id="simulator-tab">
   <div class="container">
     <div class="panel">
       <div class="controls">
         <label>Lenguaje:</label>
-        <select id="lang">
+        <select id="lang" onchange="onLangChange()">
           <option value="python">Python</option>
           <option value="java">Java</option>
           <option value="cpp">C++</option>
@@ -345,7 +335,6 @@
   </div>
 </div>
 
-<!-- Modal de misión -->
 <div class="modal" id="mission-modal">
   <div class="modal-content">
     <h2 id="modal-title"></h2>
@@ -362,9 +351,6 @@
 </div>
 
 <script>
-/* =========================================================
-   SISTEMA DE TABS
-   ========================================================= */
 function switchTab(tabName) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -372,113 +358,61 @@ function switchTab(tabName) {
   document.getElementById(tabName + '-tab').classList.add('active');
 }
 
-/* =========================================================
-   TUTORIAL
-   ========================================================= */
 const tutorialSteps = [
   {
     title: '¿Qué es una variable?',
     content: `
-      <p>Una <strong>variable</strong> es como una caja donde guardas información. Puede contener números, texto u otros datos.</p>
-      <p>En Python, creas variables así:</p>
-      <div class="tutorial-code">
-edad = 25<br>
-nombre = "Ana"
-      </div>
+      <p>Una <strong>variable</strong> es como una caja donde guardas información.</p>
+      <p>En Python:</p>
+      <div class="tutorial-code">edad = 25</div>
       <p>En Java:</p>
-      <div class="tutorial-code">
-int edad = 25;<br>
-String nombre = "Ana";
-      </div>
+      <div class="tutorial-code">int edad = 25;</div>
       <p>En C++:</p>
-      <div class="tutorial-code">
-int edad = 25;<br>
-string nombre = "Ana";
-      </div>
+      <div class="tutorial-code">int edad = 25;</div>
     `
   },
   {
     title: 'Suma: Juntar cantidades',
     content: `
-      <p>La <strong>suma</strong> combina dos o más números usando el símbolo <code>+</code>.</p>
+      <p>La <strong>suma</strong> usa el símbolo <code>+</code>.</p>
       <div class="tutorial-code">
 # Python<br>
 a = 5<br>
 b = 3<br>
-suma = a + b  # suma vale 8<br>
-print("Resultado:", suma)
-      </div>
-      <p><strong>Ejemplo práctico:</strong> Si tienes 5 manzanas y te dan 3 más, ahora tienes 8 manzanas.</p>
-      <div class="tutorial-code">
-// Java<br>
-int a = 5;<br>
-int b = 3;<br>
-int suma = a + b;<br>
-System.out.println("Resultado: " + suma);
+suma = a + b<br>
+print(suma)
       </div>
     `
   },
   {
     title: 'Resta: Quitar cantidades',
     content: `
-      <p>La <strong>resta</strong> quita una cantidad de otra usando el símbolo <code>-</code>.</p>
+      <p>La <strong>resta</strong> usa el símbolo <code>-</code>.</p>
       <div class="tutorial-code">
 # Python<br>
 total = 10<br>
 gastado = 4<br>
-restante = total - gastado  # vale 6<br>
-print("Te queda:", restante)
-      </div>
-      <p><strong>Ejemplo práctico:</strong> Si tienes 10 euros y gastas 4, te quedan 6 euros.</p>
-      <div class="tutorial-code">
-// Java<br>
-int total = 10;<br>
-int gastado = 4;<br>
-int restante = total - gastado;<br>
-System.out.println("Te queda: " + restante);
+restante = total - gastado<br>
+print(restante)
       </div>
     `
   },
   {
-    title: 'Combinando suma y resta',
+    title: 'Combinando operaciones',
     content: `
-      <p>Puedes combinar varias operaciones en una sola expresión:</p>
+      <p>Puedes combinar varias operaciones:</p>
       <div class="tutorial-code">
-# Python<br>
-inicial = 100<br>
-ganancia = 25<br>
-perdida = 10<br>
-final = inicial + ganancia - perdida<br>
-print("Total final:", final)  # 115
-      </div>
-      <p><strong>Orden de operaciones:</strong> Las operaciones se ejecutan de izquierda a derecha cuando son del mismo tipo.</p>
-      <p><strong>Paréntesis:</strong> Usan <code>()</code> para cambiar el orden:</p>
-      <div class="tutorial-code">
-resultado = (10 + 5) * 2  # Primero suma, luego multiplica = 30<br>
-resultado = 10 + 5 * 2    # Primero multiplica, luego suma = 20
+resultado = 10 + 5 - 3<br>
+print(resultado)
       </div>
     `
   },
   {
     title: 'Imprimir resultados',
     content: `
-      <p>Para ver los resultados en pantalla, usamos comandos de impresión:</p>
-      <p><strong>Python:</strong></p>
-      <div class="tutorial-code">
-print("Hola Mundo")<br>
-print("Suma:", 5 + 3)
-      </div>
-      <p><strong>Java:</strong></p>
-      <div class="tutorial-code">
-System.out.println("Hola Mundo");<br>
-System.out.println("Suma: " + (5 + 3));
-      </div>
-      <p><strong>C++:</strong></p>
-      <div class="tutorial-code">
-cout &lt;&lt; "Hola Mundo" &lt;&lt; endl;<br>
-cout &lt;&lt; "Suma: " &lt;&lt; (5 + 3) &lt;&lt; endl;
-      </div>
-      <p>¡Ahora estás listo para las misiones! 🎯</p>
+      <p><strong>Python:</strong> print("Hola")</p>
+      <p><strong>Java:</strong> System.out.println("Hola");</p>
+      <p><strong>C++:</strong> cout << "Hola" << endl;</p>
     `
   }
 ];
@@ -515,7 +449,7 @@ function prevStep() {
 renderTutorial();
 
 /* =========================================================
-   SISTEMA DE MISIONES
+   MISIONES CORREGIDAS
    ========================================================= */
 const missions = {
   level1: {
@@ -524,53 +458,53 @@ const missions = {
       {
         id: 'm1_1',
         title: 'Primera Suma',
-        description: 'Suma dos números: 5 + 3 e imprime el resultado',
-        objective: 'El programa debe imprimir: 8',
-        hint: 'Crea dos variables, súmalas y usa print/println/cout',
+        description: 'Suma 5 + 3 e imprime el resultado',
+        objective: 'El programa debe imprimir exactamente: 8',
+        hint: 'Crea dos variables, súmalas e imprime el resultado',
         validate: (output) => output.trim() === '8',
         starterCode: {
           python: '# Suma 5 + 3 e imprime el resultado\n',
-          java: '// Suma 5 + 3 e imprime el resultado\n',
-          cpp: '// Suma 5 + 3 e imprime el resultado\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Suma 5 + 3 e imprime el resultado\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Suma 5 + 3 e imprime el resultado\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm1_2',
         title: 'Resta Básica',
         description: 'Resta 10 - 4 e imprime el resultado',
-        objective: 'El programa debe imprimir: 6',
+        objective: 'El programa debe imprimir exactamente: 6',
         hint: 'Usa el operador - para restar',
         validate: (output) => output.trim() === '6',
         starterCode: {
           python: '# Resta 10 - 4 e imprime el resultado\n',
-          java: '// Resta 10 - 4 e imprime el resultado\n',
-          cpp: '// Resta 10 - 4 e imprime el resultado\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Resta 10 - 4 e imprime el resultado\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Resta 10 - 4 e imprime el resultado\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm1_3',
         title: 'Combinando Operaciones',
         description: 'Calcula: 15 + 7 - 3 e imprime el resultado',
-        objective: 'El programa debe imprimir: 19',
-        hint: 'Puedes hacer las operaciones en una sola línea o en pasos',
+        objective: 'El programa debe imprimir exactamente: 19',
+        hint: 'Puedes hacer las operaciones en una sola línea',
         validate: (output) => output.trim() === '19',
         starterCode: {
           python: '# Calcula 15 + 7 - 3\n',
-          java: '// Calcula 15 + 7 - 3\n',
-          cpp: '// Calcula 15 + 7 - 3\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Calcula 15 + 7 - 3\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Calcula 15 + 7 - 3\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm1_4',
         title: 'Variables con Texto',
-        description: 'Crea una variable con tu edad, otra con 5, súmalas e imprime: "Mi edad más 5 es: [resultado]"',
-        objective: 'Si tu edad es 20, debe imprimir: "Mi edad más 5 es: 25"',
+        description: 'Crea una variable edad=20, súmale 5 e imprime: "Mi edad más 5 es: [resultado]"',
+        objective: 'Debe imprimir exactamente: Mi edad más 5 es: 25',
         hint: 'Usa concatenación de strings con +',
-        validate: (output) => output.includes('Mi edad más 5 es:') && /\d+/.test(output),
+        validate: (output) => output.trim() === 'Mi edad más 5 es: 25',
         starterCode: {
           python: '# Crea variables y concatena texto\nedad = 20\n',
-          java: '// Crea variables y concatena texto\nint edad = 20;\n',
-          cpp: '// Crea variables y concatena texto\nint edad = 20;\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    int edad = 20;\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  int edad = 20;\n  \n  return 0;\n}'
         }
       }
     ]
@@ -582,52 +516,58 @@ const missions = {
         id: 'm2_1',
         title: 'Multiplicación Simple',
         description: 'Multiplica 6 * 7 e imprime el resultado',
-        objective: 'El programa debe imprimir: 42',
+        objective: 'El programa debe imprimir exactamente: 42',
         hint: 'Usa el operador * para multiplicar',
         validate: (output) => output.trim() === '42',
         starterCode: {
           python: '# Multiplica 6 * 7\n',
-          java: '// Multiplica 6 * 7\n',
-          cpp: '// Multiplica 6 * 7\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Multiplica 6 * 7\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Multiplica 6 * 7\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm2_2',
         title: 'División Básica',
         description: 'Divide 20 entre 4 e imprime el resultado',
-        objective: 'El programa debe imprimir: 5.0 o 5',
+        objective: 'El programa debe imprimir: 5 (entero) o 5.0 (decimal)',
         hint: 'Usa el operador / para dividir',
-        validate: (output) => output.trim() === '5.0' || output.trim() === '5',
+        validate: (output) => {
+          const val = output.trim();
+          return val === '5' || val === '5.0';
+        },
         starterCode: {
           python: '# Divide 20 / 4\n',
-          java: '// Divide 20 / 4\n',
-          cpp: '// Divide 20 / 4\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Divide 20 / 4\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Divide 20 / 4\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm2_3',
         title: 'Área de un Rectángulo',
         description: 'Calcula el área de un rectángulo de 8 x 5 e imprime: "El área es: [resultado]"',
-        objective: 'Debe imprimir: "El área es: 40"',
+        objective: 'Debe imprimir exactamente: El área es: 40',
         hint: 'Área = base × altura',
-        validate: (output) => output.includes('El área es:') && output.includes('40'),
+        validate: (output) => output.trim() === 'El área es: 40',
         starterCode: {
           python: '# Calcula el área de un rectángulo\nbase = 8\naltura = 5\n',
-          java: '// Calcula el área de un rectángulo\nint base = 8;\nint altura = 5;\n',
-          cpp: '// Calcula el área de un rectángulo\nint base = 8;\nint altura = 5;\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    int base = 8;\n    int altura = 5;\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  int base = 8;\n  int altura = 5;\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm2_4',
         title: 'Promedio de Notas',
-        description: 'Calcula el promedio de 3 notas: 8, 9 y 7. Imprime: "Promedio: [resultado]"',
-        objective: 'Debe imprimir: "Promedio: 8.0" o "Promedio: 8"',
+        description: 'Calcula el promedio de 8, 9 y 7. Imprime: "Promedio: [resultado]"',
+        objective: 'Debe imprimir: Promedio: 8 (entero) o Promedio: 8.0 (decimal)',
         hint: 'Promedio = (nota1 + nota2 + nota3) / 3',
-        validate: (output) => output.includes('Promedio:') && (output.includes('8.0') || output.includes('8')),
+        validate: (output) => {
+          const val = output.trim();
+          return val === 'Promedio: 8' || val === 'Promedio: 8.0';
+        },
         starterCode: {
           python: '# Calcula el promedio de 3 notas\nnota1 = 8\nnota2 = 9\nnota3 = 7\n',
-          java: '// Calcula el promedio de 3 notas\nint nota1 = 8;\nint nota2 = 9;\nint nota3 = 7;\n',
-          cpp: '// Calcula el promedio de 3 notas\nint nota1 = 8;\nint nota2 = 9;\nint nota3 = 7;\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    int nota1 = 8;\n    int nota2 = 9;\n    int nota3 = 7;\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  int nota1 = 8;\n  int nota2 = 9;\n  int nota3 = 7;\n  \n  return 0;\n}'
         }
       }
     ]
@@ -638,53 +578,62 @@ const missions = {
       {
         id: 'm3_1',
         title: 'Crear una Lista',
-        description: 'Crea una lista con los números [10, 20, 30] e imprímela',
+        description: 'Crea una lista con [10, 20, 30] e imprímela',
         objective: 'Debe imprimir: [10, 20, 30] o similar',
-        hint: 'Python: [10,20,30] | Java: ArrayList | C++: vector',
-        validate: (output) => output.includes('10') && output.includes('20') && output.includes('30'),
+        hint: 'Python: [10,20,30] | Java: ArrayList con add() | C++: vector con push_back()',
+        validate: (output) => {
+          const val = output.trim();
+          return val.includes('[10, 20, 30]') || val.includes('[10,20,30]');
+        },
         starterCode: {
           python: '# Crea una lista e imprímela\n',
-          java: '// Crea una lista e imprímela\n',
-          cpp: '// Crea una lista e imprímela\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Crea una lista e imprímela\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Crea una lista e imprímela\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm3_2',
         title: 'Acceder a Elementos',
         description: 'Crea una lista [5, 10, 15, 20] e imprime el segundo elemento',
-        objective: 'Debe imprimir: 10',
-        hint: 'Los índices empiezan en 0: lista[0] es el primero, lista[1] es el segundo',
+        objective: 'Debe imprimir exactamente: 10',
+        hint: 'Python: lista[1] | Java: usa array int[] | C++: vector[1]',
         validate: (output) => output.trim() === '10',
         starterCode: {
           python: '# Crea una lista e imprime el segundo elemento\nnumeros = [5, 10, 15, 20]\n',
-          java: '// Crea una lista e imprime el segundo elemento\n',
-          cpp: '// Crea una lista e imprime el segundo elemento\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Usa array int[] en lugar de ArrayList\n    int[] numeros = {5, 10, 15, 20};\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  vector<int> numeros = {5, 10, 15, 20};\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm3_3',
         title: 'Modificar Elementos',
-        description: 'Crea una lista [1, 2, 3], cambia el segundo elemento a 99 e imprime la lista',
+        description: 'Crea una lista [1, 2, 3], cambia el segundo a 99 e imprime la lista',
         objective: 'Debe imprimir: [1, 99, 3] o similar',
-        hint: 'Usa lista[1] = 99 para modificar',
-        validate: (output) => output.includes('1') && output.includes('99') && output.includes('3'),
+        hint: 'Python: lista[1]=99 | Java: usa array int[] | C++: vector[1]=99',
+        validate: (output) => {
+          const val = output.trim();
+          return val.includes('[1, 99, 3]') || val.includes('[1,99,3]');
+        },
         starterCode: {
           python: '# Modifica el segundo elemento\nnumeros = [1, 2, 3]\n',
-          java: '// Modifica el segundo elemento\n',
-          cpp: '// Modifica el segundo elemento\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Usa array int[] en lugar de ArrayList\n    int[] numeros = {1, 2, 3};\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  vector<int> numeros = {1, 2, 3};\n  \n  return 0;\n}'
         }
       },
       {
         id: 'm3_4',
         title: 'Agregar Elementos',
-        description: 'Crea una lista vacía, agrega 3 números (5, 10, 15) e imprime la lista final',
+        description: 'Crea una lista vacía, agrega 5, 10, 15 e imprime la lista final',
         objective: 'Debe imprimir: [5, 10, 15] o similar',
-        hint: 'Python: .append() | Java: .add() | C++: .push_back()',
-        validate: (output) => output.includes('5') && output.includes('10') && output.includes('15'),
+        hint: 'Python: .append() | Java: ArrayList.add() | C++: vector.push_back()',
+        validate: (output) => {
+          const val = output.trim();
+          return val.includes('[5, 10, 15]') || val.includes('[5,10,15]');
+        },
         starterCode: {
           python: '# Crea lista vacía y agrega elementos\n',
-          java: '// Crea lista vacía y agrega elementos\n',
-          cpp: '// Crea lista vacía y agrega elementos\n'
+          java: 'public class Main {\n  public static void main(String[] args) {\n    // Crea lista vacía y agrega elementos\n    \n  }\n}',
+          cpp: '#include <iostream>\nusing namespace std;\nint main() {\n  // Crea lista vacía y agrega elementos\n  \n  return 0;\n}'
         }
       }
     ]
@@ -769,18 +718,9 @@ function checkMission() {
   const outputEl = document.getElementById('mission-output');
   outputEl.innerHTML = '';
   
-  // Ejecutar código
-  const oldOutput = document.getElementById('output');
-  const tempOutput = document.createElement('div');
-  tempOutput.className = 'console';
-  tempOutput.style.height = '150px';
-  tempOutput.style.marginTop = '10px';
-  
   try {
-    const env = { vars: {} };
     let output = '';
     
-    // Capturar salida
     const originalPrint = window.print;
     window.print = function(msg, cls='') {
       output += msg + '\n';
@@ -792,10 +732,8 @@ function checkMission() {
     
     window.print = originalPrint;
     
-    // Mostrar salida
     outputEl.innerHTML = `<div style="color:#a6e3a1;">${output}</div>`;
     
-    // Validar
     if (currentMission.validate(output)) {
       completedMissions.add(currentMission.id);
       outputEl.innerHTML += `<div class="success" style="margin-top:10px;">✅ ¡Misión completada!</div>`;
@@ -812,7 +750,7 @@ function checkMission() {
 renderMissions();
 
 /* =========================================================
-   SIMULADOR (código del ejercicio anterior)
+   SIMULADOR - Intérpretes CORREGIDOS
    ========================================================= */
 const outputEl = document.getElementById('output');
 const codeEl   = document.getElementById('code');
@@ -828,7 +766,14 @@ function print(msg, cls='') {
 function clearOutput(){ outputEl.innerHTML=''; }
 function clearAll(){ codeEl.value=''; clearOutput(); }
 
-/* Tokenizer y Parser (igual que antes) */
+function onLangChange() {
+  // Si hay una misión abierta, actualizar el código
+  if (currentMission) {
+    const lang = langEl.value;
+    document.getElementById('mission-code').value = currentMission.starterCode[lang];
+  }
+}
+
 function tokenize(expr){
   const tokens=[];
   let i=0;
@@ -934,215 +879,4 @@ function evalExpr(expr, env){
   if(expr.trim()==='') return '';
   const tokens = tokenize(expr);
   const [val, p] = parseExpr(tokens, 0, env);
-  if(p<tokens.length) throw new Error('Tokens sobrantes en: '+expr);
-  return val;
-}
-
-function formatValue(v){
-  if(Array.isArray(v)) return '['+v.map(formatValue).join(', ')+']';
-  if(v && typeof v==='object' && v.__map){
-    const entries=Object.entries(v).filter(([k])=>k!=='__map');
-    return '{'+entries.map(([k,val])=>k+': '+formatValue(val)).join(', ')+'}';
-  }
-  if(typeof v==='string') return v;
-  return String(v);
-}
-
-function splitArgs(s){
-  const res=[]; let cur='', depth=0, inStr=false, q='';
-  for(let i=0;i<s.length;i++){
-    const c=s[i];
-    if(inStr){ cur+=c; if(c===q) inStr=false; continue; }
-    if(c==='"' || c==="'"){ inStr=true; q=c; cur+=c; continue; }
-    if('([{'.includes(c)){ depth++; cur+=c; continue; }
-    if(')]}'.includes(c)){ depth--; cur+=c; continue; }
-    if(c===',' && depth===0){ res.push(cur.trim()); cur=''; continue; }
-    cur+=c;
-  }
-  if(cur.trim()!=='') res.push(cur.trim());
-  return res;
-}
-
-/* Intérpretes */
-function runPython(code){
-  const env = { vars:{} };
-  const lines = code.split('\n').map(l=>l.replace(/\s+$/,''));
-  for(let ln of lines){
-    ln = ln.trim();
-    if(!ln || ln.startsWith('#')) continue;
-
-    let m = ln.match(/^print\((.*)\)$/);
-    if(m){
-      const args = splitArgs(m[1]);
-      const out = args.map(a=>formatValue(evalExpr(a,env))).join(' ');
-      print(out); continue;
-    }
-
-    m = ln.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*(?::\s*\w+)?\s*=\s*(.+)$/);
-    if(m){
-      const name=m[1], expr=m[2];
-      env.vars[name] = parsePythonValue(expr, env);
-      continue;
-    }
-
-    m = ln.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\[(.+)\]\s*=\s*(.+)$/);
-    if(m){
-      const name=m[1], idx=evalExpr(m[2],env), val=evalExpr(m[3],env);
-      env.vars[name][idx]=val; continue;
-    }
-
-    m = ln.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\.(append|add)\((.+)\)$/);
-    if(m){
-      const arr=env.vars[m[1]];
-      if(!Array.isArray(arr)) throw new Error(m[1]+' no es una lista');
-      arr.push(evalExpr(m[3],env)); continue;
-    }
-
-    throw new Error('Línea no reconocida (Python): '+ln);
-  }
-}
-
-function parsePythonValue(expr, env){
-  expr=expr.trim();
-  if(expr.startsWith('[') && expr.endsWith(']')){
-    const inner=expr.slice(1,-1);
-    if(inner.trim()==='') return [];
-    return splitArgs(inner).map(a=>evalExpr(a,env));
-  }
-  if(expr.startsWith('{') && expr.endsWith('}')){
-    const inner=expr.slice(1,-1);
-    const obj={__map:true};
-    if(inner.trim()==='') return obj;
-    for(const pair of splitArgs(inner)){
-      const [k,v]=pair.split(':').map(s=>s.trim());
-      obj[evalExpr(k,env)] = evalExpr(v,env);
-    }
-    return obj;
-  }
-  if(expr==='list()') return [];
-  if(expr==='dict()') return {__map:true};
-  return evalExpr(expr, env);
-}
-
-function runJava(code){
-  const env = { vars:{} };
-  code = code.replace(/public\s+class\s+\w+\s*\{?/g,'')
-             .replace(/public\s+static\s+void\s+main\s*\(\s*String\[\]\s*\w*\s*\)\s*\{?/g,'')
-             .replace(/\}\s*$/g,'');
-  const lines = code.split('\n');
-  for(let raw of lines){
-    let ln = raw.trim().replace(/;$/,'').trim();
-    if(!ln || ln==='{' || ln==='}') continue;
-
-    let m = ln.match(/^System\.out\.println\((.*)\)$/);
-    if(m){
-      const args=splitArgs(m[1]);
-      print(args.map(a=>formatValue(evalExpr(a,env))).join(' '));
-      continue;
-    }
-    m = ln.match(/^System\.out\.print\((.*)\)$/);
-    if(m){
-      const args=splitArgs(m[1]);
-      print(args.map(a=>formatValue(evalExpr(a,env))).join(' '), '');
-      continue;
-    }
-
-    m = ln.match(/^ArrayList<\w+>\s+(\w+)\s*=\s*new\s+ArrayList<>\(\)$/);
-    if(m){ env.vars[m[1]]=[]; continue; }
-    m = ln.match(/^HashMap<\w+,\s*\w+>\s+(\w+)\s*=\s*new\s+HashMap<>\(\)$/);
-    if(m){ env.vars[m[1]]={__map:true}; continue; }
-    m = ln.match(/^(\w+)\.add\((.+)\)$/);
-    if(m){ env.vars[m[1]].push(evalExpr(m[2],env)); continue; }
-    m = ln.match(/^(\w+)\.put\((.+),\s*(.+)\)$/);
-    if(m){ env.vars[m[1]][evalExpr(m[2],env)]=evalExpr(m[3],env); continue; }
-
-    m = ln.match(/^(int|double|float|String)\[\]\s+(\w+)\s*=\s*\{(.*)\}$/);
-    if(m){
-      const inner=m[3];
-      env.vars[m[2]] = inner.trim()===''?[]:splitArgs(inner).map(a=>evalExpr(a,env));
-      continue;
-    }
-    m = ln.match(/^(int|double|float|String)\s+(\w+)\s*=\s*(.+)$/);
-    if(m){ env.vars[m[2]] = evalExpr(m[3],env); continue; }
-    m = ln.match(/^(\w+)\s*=\s*(.+)$/);
-    if(m){ env.vars[m[1]] = evalExpr(m[2],env); continue; }
-    m = ln.match(/^(\w+)\[(.+)\]\s*=\s*(.+)$/);
-    if(m){ env.vars[m[1]][evalExpr(m[2],env)] = evalExpr(m[3],env); continue; }
-
-    throw new Error('Línea no reconocida (Java): '+ln);
-  }
-}
-
-function runCpp(code){
-  const env = { vars:{} };
-  code = code.replace(/#include\s*<[^>]+>/g,'')
-             .replace(/using\s+namespace\s+std\s*;/g,'')
-             .replace(/int\s+main\s*\(\s*\)\s*\{?/g,'')
-             .replace(/return\s+0\s*;/g,'')
-             .replace(/\}\s*$/g,'');
-  const lines = code.split('\n');
-  for(let raw of lines){
-    let ln = raw.trim().replace(/;$/,'').trim();
-    if(!ln || ln==='{' || ln==='}') continue;
-
-    if(ln.startsWith('cout')){
-      const parts = ln.replace(/^cout\s*<<\s*/,'').split('<<').map(s=>s.trim());
-      let out='';
-      for(const p of parts){
-        if(p==='endl' || p==='\\n' || p==='"\\n"') { }
-        else out += formatValue(evalExpr(p,env));
-      }
-      print(out); continue;
-    }
-
-    let m = ln.match(/^vector<\w+>\s+(\w+)$/);
-    if(m){ env.vars[m[1]]=[]; continue; }
-    m = ln.match(/^vector<\w+>\s+(\w+)\s*=\s*\{(.*)\}$/);
-    if(m){
-      env.vars[m[1]] = m[2].trim()===''?[]:splitArgs(m[2]).map(a=>evalExpr(a,env));
-      continue;
-    }
-    m = ln.match(/^map<\w+,\s*\w+>\s+(\w+)$/);
-    if(m){ env.vars[m[1]]={__map:true}; continue; }
-    m = ln.match(/^(\w+)\.push_back\((.+)\)$/);
-    if(m){ env.vars[m[1]].push(evalExpr(m[2],env)); continue; }
-    m = ln.match(/^(\w+)\[(.+)\]\s*=\s*(.+)$/);
-    if(m){
-      const obj=env.vars[m[1]];
-      const k=evalExpr(m[2],env);
-      if(Array.isArray(obj)) obj[k]=evalExpr(m[3],env);
-      else obj[k]=evalExpr(m[3],env);
-      continue;
-    }
-
-    m = ln.match(/^(int|double|float|string)\s+(\w+)\[\]\s*=\s*\{(.*)\}$/);
-    if(m){
-      env.vars[m[2]] = m[3].trim()===''?[]:splitArgs(m[3]).map(a=>evalExpr(a,env));
-      continue;
-    }
-    m = ln.match(/^(int|double|float|string)\s+(\w+)\s*=\s*(.+)$/);
-    if(m){ env.vars[m[2]] = evalExpr(m[3],env); continue; }
-    m = ln.match(/^(\w+)\s*=\s*(.+)$/);
-    if(m){ env.vars[m[1]] = evalExpr(m[2],env); continue; }
-
-    throw new Error('Línea no reconocida (C++): '+ln);
-  }
-}
-
-function runCode(){
-  clearOutput();
-  const lang = langEl.value;
-  const code = codeEl.value;
-  print('▶ Ejecutando '+lang.toUpperCase()+'...', 'info');
-  try{
-    if(lang==='python') runPython(code);
-    else if(lang==='java') runJava(code);
-    else if(lang==='cpp')  runCpp(code);
-    print('✓ Programa finalizado', 'info');
-  }catch(e){
-    print('✖ Error: '+e.message, 'err');
-  }
-}
-</script>
-</body>
-</html>
+  if(p<
